@@ -23,31 +23,43 @@ It wrote the code, ran away, and now the game is unplayable.
    - Run `pytest` in your terminal.
    - Keep fixing until all tests pass!
 
+
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+**Purpose:** A Streamlit number-guessing game where the player guesses a secret number between 1 and 100 within 8 attempts, getting "Too High" / "Too Low" hints until they win or run out of attempts.
+
+**Bugs found:**
+- Attempts counter ran past the 8-attempt limit and went negative ("Attempts left: -3").
+- New Game didn't fully reset — old score and history stuck around and the game stayed locked on "Game over."
+- Guess history stored empty strings instead of numbers when an empty input was submitted.
+
+**Fixes applied:**
+- Enforced the attempts limit on every submit so the game locks at exactly 8.
+- Made New Game reset score, history, status, and attempts so a fresh game starts cleanly.
+- Refactored check_guess and parse_guess into logic_utils.py and added a passing pytest case.
 
 ## 📸 Demo Walkthrough
 
-Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. The game starts with a secret number between 1 and 100 and 8 attempts allowed.
+2. User enters a guess of 40 → game returns "Too Low"
+3. User enters a guess of 70 → game returns "Too High"
+4. The guess is recorded in History and the attempts counter decreases.
+5. User enters the correct number → game returns "Win" and the score updates.
+6. After 8 attempts without a correct guess, the game locks with "Game over."
+7. Clicking New Game resets the score, history, and attempts so a fresh game can begin.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
+
 ## 🧪 Test Results
 
-```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
-```
+​```
+============================= test session starts =============================
+collected 1 item
+tests/test_game_logic.py .                                              [100%]
+============================== 1 passed in 0.01s ==============================
+​```
 
 ## 🚀 Stretch Features
 
