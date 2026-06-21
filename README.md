@@ -32,11 +32,13 @@ It wrote the code, ran away, and now the game is unplayable.
 - Attempts counter ran past the 8-attempt limit and went negative ("Attempts left: -3").
 - New Game didn't fully reset — old score and history stuck around and the game stayed locked on "Game over."
 - Guess history stored empty strings instead of numbers when an empty input was submitted.
+- Hints were backwards — a guess that was too high told the player to "Go HIGHER!" (and vice versa).
 
 **Fixes applied:**
 - Enforced the attempts limit on every submit so the game locks at exactly 8.
 - Made New Game reset score, history, status, and attempts so a fresh game starts cleanly.
-- Refactored check_guess and parse_guess into logic_utils.py and added a passing pytest case.
+- Swapped the hint messages so "Too High" tells you to go LOWER and "Too Low" tells you to go HIGHER.
+- Refactored check_guess and parse_guess into logic_utils.py and added a passing pytest suite.
 
 ## 📸 Demo Walkthrough
 
@@ -54,13 +56,28 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 🧪 Test Results
 
-​```
-============================= test session starts =============================
-collected 1 item
-tests/test_game_logic.py .                                              [100%]
-============================== 1 passed in 0.01s ==============================
-​```
+```
+============================= test session starts ==============================
+platform darwin -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
+collected 9 items
+
+tests/test_game_logic.py::test_check_guess_outcomes PASSED               [ 11%]
+tests/test_game_logic.py::test_hint_messages_point_the_right_way PASSED  [ 22%]
+tests/test_game_logic.py::test_wrong_guess_does_not_change_score PASSED  [ 33%]
+tests/test_game_logic.py::test_first_guess_win_returns_100 PASSED        [ 44%]
+tests/test_game_logic.py::test_parse_guess_rejects_non_numeric PASSED    [ 55%]
+tests/test_game_logic.py::test_parse_guess_rejects_empty_input PASSED    [ 66%]
+tests/test_game_logic.py::test_parse_guess_accepts_negative_number PASSED [ 77%]
+tests/test_game_logic.py::test_parse_guess_truncates_decimal PASSED      [ 88%]
+tests/test_game_logic.py::test_parse_guess_handles_large_number PASSED   [100%]
+
+============================== 9 passed in 0.01s ===============================
+```
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
+**Challenge 1 — Advanced Edge-Case Testing.** Added five `pytest` cases targeting
+edge-case inputs to `parse_guess`: non-numeric strings (`"abc"`), empty input,
+negative numbers (`"-7"`), decimals (`"3.9"` → truncates to `3`), and very large
+numbers. All pass (see the Test Results block above). The test-generation prompts
+and the rationale for each edge case are recorded in `ai_interactions.md`.
